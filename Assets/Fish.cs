@@ -22,6 +22,7 @@ public class Fish : MonoBehaviour {
 		string[] colors = {"red", "green", "blue"};
 //But afterwards, change to Color[] colors = {Color.red,....};
 
+//		string col = m.colors [Random.Range (0, colors.Length)];
 		string col = colors [Random.Range (0, colors.Length)];
 
 		if (col == "red") {

@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Fish.cs" />
      <Compile Include="Assets\FishSpawner.cs" />
+     <Compile Include="Assets\Main.cs" />
      <Compile Include="Assets\Underwater.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>

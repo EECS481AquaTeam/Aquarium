@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// from http://wiki.unity3d.com/index.php?title=Underwater_Script
+// adapted from http://wiki.unity3d.com/index.php?title=Underwater_Script
 
 public class Underwater : MonoBehaviour {
 	

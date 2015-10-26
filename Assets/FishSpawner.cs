@@ -13,6 +13,7 @@ public class FishSpawner : MonoBehaviour {
 	void Update () {
 		CreateFish ();
 	}
+
 	void CreateFish() {
 		Instantiate (fishPrefabVar);
 	}

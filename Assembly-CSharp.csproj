@@ -48,8 +48,11 @@
      <Compile Include="Assets\Fish.cs" />
      <Compile Include="Assets\FishSpawner.cs" />
      <Compile Include="Assets\Main.cs" />
+     <Compile Include="Assets\ObjectGrower.cs" />
      <Compile Include="Assets\Underwater.cs" />
+     <Compile Include="Assets\Whale.cs" />
      <Compile Include="Assets\WhaleAnimator.cs" />
+     <Compile Include="Assets\WhaleMove.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>

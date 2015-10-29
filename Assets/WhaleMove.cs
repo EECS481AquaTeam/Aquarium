@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Whale : MonoBehaviour
+public class WhaleMove : MonoBehaviour
 {
 
     public Vector3 currentPosition;

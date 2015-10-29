@@ -9,6 +9,8 @@ public class ObjectGrower : MonoBehaviour
 	public const float INCREASE_FACTOR = 1.01f;
 	public const float DECREASE_FACTOR = 0.99f;
 	public const float NORMAL_SIZE = 1.0f;
+	Ray ray;
+	RaycastHit hit;
 
 	// Use this for initialization
 	void Start()
@@ -18,12 +20,17 @@ public class ObjectGrower : MonoBehaviour
 
 	void Update()
 	{
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
 		// If a user is holding down on the object, increase its scale
 		if (Input.GetMouseButton (0))
 		{
-			if (currentScale[0] <= MAX_SIZE)
+			if (Physics.Raycast (ray, out hit))
 			{
-				currentScale = currentScale * INCREASE_FACTOR;
+				if (currentScale[0] <= MAX_SIZE)
+				{
+					currentScale = currentScale * INCREASE_FACTOR;
+				}
 			}
 		} 
 

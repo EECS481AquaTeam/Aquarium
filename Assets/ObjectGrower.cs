@@ -27,11 +27,13 @@ public class ObjectGrower : MonoBehaviour
 		if (distance_to_mouse > OBJECT_RADIUS || !Input.GetMouseButton(0))
 		{
 			// If the object is bigger than normal, shrink it down
-			if (currentScale [0] > NORMAL_SIZE) {
+			if (currentScale [0] > NORMAL_SIZE)
+			{
 				currentScale = currentScale * DECREASE_FACTOR;
 			}
 			// Or set it to the standar size
-			else {
+			else
+			{
 				currentScale = new Vector3 (NORMAL_SIZE, NORMAL_SIZE, NORMAL_SIZE);
 			}
 		}

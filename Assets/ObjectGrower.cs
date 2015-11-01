@@ -12,7 +12,6 @@ public class ObjectGrower : MonoBehaviour
 	public int OBJECT_RADIUS = 50;
 	Vector3 screen_position;
 
-
 	void Start()
 	{	
 		currentScale = this.transform.localScale;

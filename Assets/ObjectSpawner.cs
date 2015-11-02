@@ -6,7 +6,7 @@ public class ObjectSpawner : MonoBehaviour {
 	public string prefabType;
 	
 	void Start () {
-		print (prefabType);
+//		print (prefabType);
 		InvokeRepeating("CreateObject", 1, .01F);
 	}
 

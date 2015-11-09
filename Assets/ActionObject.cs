@@ -125,7 +125,7 @@ public class ActionObject : MonoBehaviour {
 
 	private bool OutsideCamera()
 	{
-		if ((pos.x > 15 || pos.x < -15) || (pos.y > 15 || pos.y < -15))
+		if ((pos.x > 35 || pos.x < -35) || (pos.y > 25 || pos.y < -25))
 			return true;
 		else
 			return false;

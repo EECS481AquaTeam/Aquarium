@@ -11,7 +11,7 @@ public class ActionObject : MonoBehaviour {
 	// Speed of a Fish at a given time (x,y,z) components
 	private Vector3 speed;
 	
-	void Awake()
+	public virtual void Awake()
 	{
 		pos = GetRandomVector (30);
 		speed = GetRandomVector (8);
@@ -20,7 +20,7 @@ public class ActionObject : MonoBehaviour {
 	}
 
 	// Destroy the object if it is outside the frame of the camera
-	void Update()
+	public virtual void Update()
 	{
 		if (OutsideCamera ()) {
 			Destroy (gameObject);
@@ -29,23 +29,23 @@ public class ActionObject : MonoBehaviour {
 	}
 
 	// The object grows if the mouse is clicking the object, and shrinks back to its normal size otherwize 
-	void Grow ()
+	public void Grow ()
 	{
 		scale = scale * INCREASE_FACTOR;
 	}
 
-	void Shrink ()
+	public void Shrink ()
 	{
 		scale = scale * DECREASE_FACTOR;
 	}
 
-	void ResetScale()
+	public void ResetScale()
 	{
 		scale = new Vector3 (NORMAL_SIZE, NORMAL_SIZE, NORMAL_SIZE);
 	}
 
 	// Update the location by 1 unit of time
-	void Move() {
+	public void Move() {
 		Vector3 tempPos = pos;
 		tempPos.x += speed[0] * Time.deltaTime;
 		tempPos.y += speed[1] * Time.deltaTime;
@@ -53,7 +53,7 @@ public class ActionObject : MonoBehaviour {
 		pos = tempPos;
 	}
 
-	void MoveTowardsTarget( Vector3 targetPosition) {
+	public void MoveTowardsTarget( Vector3 targetPosition) {
 
 		Vector3 directionOfTravel = targetPosition - pos;
 
@@ -68,19 +68,12 @@ public class ActionObject : MonoBehaviour {
 			Space.World);
 	}
 	
-	Vector3 GetRandomVector(int range=10)
-	{
-		return new Vector3(Random.Range (-range, range),
-		                   Random.Range (-range, range),
-		                   Random.Range (-range, range));
-	}
-	
-	Vector3 PositionOnScreen()
+	public Vector3 PositionOnScreen()
 	{
 		return Camera.main.WorldToScreenPoint (pos);
 	}
 
-	bool ClickedOn()
+	public bool ClickedOn()
 	{
 		// mouse is not being clicked
 		if (!Input.GetMouseButton (0))
@@ -95,14 +88,6 @@ public class ActionObject : MonoBehaviour {
 		// Mouse is clicking close to the object
 		else
 			return true;
-	}
-	
-	bool OutsideCamera()
-	{
-		if ((pos.x > 15 || pos.x < -15) || (pos.y > 15 || pos.y < -15))
-			return true;
-		else
-			return false;
 	}
 	
 	// Defines vectors to be equal if the magnitude of their difference is sufficiently small 
@@ -129,5 +114,20 @@ public class ActionObject : MonoBehaviour {
 		set {
 			this.transform.position = value;
 		}
+	}
+
+	private Vector3 GetRandomVector(int range=10)
+	{
+		return new Vector3(Random.Range (-range, range),
+		                   Random.Range (-range, range),
+		                   Random.Range (-range, range));
+	}
+
+	private bool OutsideCamera()
+	{
+		if ((pos.x > 15 || pos.x < -15) || (pos.y > 15 || pos.y < -15))
+			return true;
+		else
+			return false;
 	}
 }

@@ -3,27 +3,27 @@ using UnityEngine;
 using System.Collections;
 
 public class Whale : ActionObject {
-	void Swim()
+	public void Swim()
 	{
 		GetComponent<Animation> ().Play("swim");
 	}
 
-	void SwimFast()
+	public void SwimFast()
 	{
 		GetComponent<Animation> ().Play("fastswim");
 	}
 
-	void SwimFast2()
+	public void SwimFast2()
 	{
 		GetComponent<Animation> ().Play("fastswim2");
 	}
 
-	void Dive()
+	public void Dive()
 	{
 		GetComponent<Animation> ().Play("dive");
 	}
 
-	void Die()
+	public void Die()
 	{
 		GetComponent<Animation> ().Play("death");
 	}

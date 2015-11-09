@@ -13,7 +13,7 @@ public class ActionObject : MonoBehaviour {
 	
 	public virtual void Awake()
 	{
-		pos = GetRandomVector (30);
+		pos = GetRandomVector (50);
 		speed = GetRandomVector (8);
 
 		Debug.Log ("created");
@@ -62,9 +62,9 @@ public class ActionObject : MonoBehaviour {
 
 		//scale the movement on each axis by the directionOfTravel vector components
 		this.transform.Translate(
-			(directionOfTravel.x * speed * Time.deltaTime),
-			(directionOfTravel.y * speed * Time.deltaTime),
-			(directionOfTravel.z * speed * Time.deltaTime),
+			(directionOfTravel.x * speed[0] * Time.deltaTime),
+			(directionOfTravel.y * speed[1] * Time.deltaTime),
+			(directionOfTravel.z * speed[2] * Time.deltaTime),
 			Space.World);
 	}
 	
@@ -80,7 +80,7 @@ public class ActionObject : MonoBehaviour {
 			return false;
 
 		// Find distance that the mouse is from the object on the screen
-		double distance_to_mouse = Vector3.Distance(PositionOnScreen, Input.mousePosition);
+		double distance_to_mouse = Vector3.Distance(PositionOnScreen(), Input.mousePosition);
 
 		// Mouse is clicking far from the object
 		if (distance_to_mouse > OBJECT_RADIUS)

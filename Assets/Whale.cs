@@ -2,31 +2,30 @@
 using UnityEngine;
 using System.Collections;
 
-public class Whale : MonoBehaviour {
-
-	private int current_animation;
-	private string[] animations = new string[5];
-
-	void Start()
+public class Whale : ActionObject {
+	void Swim()
 	{
-		animations [0] = "swim";
-		animations [1] = "fastswim";
-		animations [2] = "death";
-		animations [3] = "fastswim2";
-		animations [4] = "dive";
-
-		current_animation = 0;
-		GetComponent<Animation> ().Play(animations[current_animation]);
+		GetComponent<Animation> ().Play("swim");
 	}
-	
-	void Update() {
-		// if the whale died already, can't do another action
-		if (current_animation == 2)
-			return;
 
-		if (Input.GetMouseButtonDown (0))
-			current_animation = Random.Range (0, 5);
-			GetComponent<Animation> ().Play(animations[current_animation]);
+	void SwimFast()
+	{
+		GetComponent<Animation> ().Play("fastswim");
+	}
+
+	void SwimFast2()
+	{
+		GetComponent<Animation> ().Play("fastswim2");
+	}
+
+	void Dive()
+	{
+		GetComponent<Animation> ().Play("dive");
+	}
+
+	void Die()
+	{
+		GetComponent<Animation> ().Play("death");
 	}
 
 }

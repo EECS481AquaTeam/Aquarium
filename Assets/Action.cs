@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum objectState {NORMAL, MOVINGTO, DONE, DIVE};
+//public enum objectState {NORMAL, MOVINGTO, DONE, DIVE};
 
 
 public class Action : MonoBehaviour {

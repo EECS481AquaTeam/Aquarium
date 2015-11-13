@@ -23,9 +23,7 @@ public class Game : MonoBehaviour {
 	public GameObject w2;
 	public GameObject w3;
 	public GameObject w4;
-	
-	objectState objState = objectState.NORMAL;
-	
+
 	whaleWithState[] whaleList = new whaleWithState[4];
 	
 	void Start() {

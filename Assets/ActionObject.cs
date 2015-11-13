@@ -3,11 +3,11 @@ using System.Collections;
 
 public class ActionObject : MonoBehaviour {
 	
-	public static float INCREASE_FACTOR = 1.01f;// The rate at which the object grows
-	public static float DECREASE_FACTOR = 0.99f;// The rate at which the object shrinks
-	public static float NORMAL_SIZE = 1.0f;		// The normal scale of an object
-	public static int OBJECT_RADIUS = 50;		// How far around an object is considered touching the object
-	public static double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
+	public const float INCREASE_FACTOR = 1.01f;// The rate at which the object grows
+	public const float DECREASE_FACTOR = 0.99f;// The rate at which the object shrinks
+	public const float NORMAL_SIZE = 1.0f;		// The normal scale of an object
+	public const int OBJECT_RADIUS = 50;		// How far around an object is considered touching the object
+	public const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
 	
 	// Speed of a Fish at a given time (x,y,z) components
 	private Vector3 speed;

@@ -24,9 +24,9 @@ public class GameTeamGame : MonoBehaviour
 	
 	void Start() {
 		Instantiate (left);
-		left.GetComponent<ActionObject> ().Initialize (Vector3(-5,1,1), Vector3(0,0,0));
+		left.GetComponent<ActionObject> ().Initialize (new Vector3(-5,1,1), new Vector3(0,0,0));
 		Instantiate (right);
-		right.GetComponent<ActionObject> ().Initialize (Vector3(5,1,1), Vector3(0,0,0));;
+		right.GetComponent<ActionObject> ().Initialize (new Vector3(5,1,1), new Vector3(0,0,0));;
 	}
 
 	void Update() {
@@ -35,23 +35,23 @@ public class GameTeamGame : MonoBehaviour
 
 		// If the proper whale is clicked on, grow it
 		if (grower.ClickedOn ()) {
-			grower.Grow (1.05);
-			turn = (turnState == turn.LEFT) ? turnState.RIGHT : turnState.LEFT;
+			grower.Grow (1.05f);
+			turnState = (turnState == turn.LEFT) ? turn.RIGHT : turn.LEFT;
 		}
 
 		// If the improper whale is clicked on, shrink both whales
 		else if (shrinker.ClickedOn ()) {
-			if (shrinker.scale > 0.5)
+			if (shrinker.scale[0] > 0.5)
 			{
-				shrinker.Grow (0.95);
+				shrinker.Grow (0.95f);
 			}
-			if (grower.scale > 0.5)
+			if (grower.scale[0] > 0.5)
 			{
-				grower.Grow (0.95);
+				grower.Grow (0.95f);
 			}
 		}
 
-		if (grower.scale > WINNER_SCALE && shrinker.scale > WINNER_SCALE) {
+		if (grower.scale[0] > WINNER_SCALE && shrinker.scale[0] > WINNER_SCALE) {
 			//end the game with a reward and move back to regular mode
 		}
 	}

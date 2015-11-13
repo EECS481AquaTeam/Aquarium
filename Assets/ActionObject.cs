@@ -19,6 +19,15 @@ public class ActionObject : MonoBehaviour {
 		
 		Debug.Log ("created");
 	}
+
+	// to initialize the location of an object, call Instiate(x); followed by x.Initialize(param1, param2,...);
+	public virtual void Initialize (Vector3 pos_, Vector3 speed_)
+	{
+		pos = pos_;
+		speed = speed_;
+
+		Debug.Log ("initialized");
+	}
 	
 	// Destroy the object if it is outside the frame of the camera
 	public virtual void Update()
@@ -30,9 +39,9 @@ public class ActionObject : MonoBehaviour {
 	}
 	
 	// The object grows if the mouse is clicking the object, and shrinks back to its normal size otherwize 
-	public void Grow ()
+	public void Grow (float increase=INCREASE_FACTOR)
 	{
-		scale = scale * INCREASE_FACTOR;
+		scale = scale * increase;
 	}
 	
 	public void Shrink ()

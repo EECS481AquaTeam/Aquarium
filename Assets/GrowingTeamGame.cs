@@ -1,27 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-
-///// for actionObject to initialize the location of an object
-///// 
-///// call Instiate(x);
-///// x.Initialize(param1, param2,...);
-//
-//public virtual void Initialize (Vector3 pos_, Vector3 speed_)
-//{
-//	pos = pos_;
-//	speed = speed_;
-//}
-
-/// change Grow() in action object to:
-/// // The object grows if the mouse is clicking the object, and shrinks back to its normal size otherwize 
-//public void Grow (float increase=INCREASE_FACTOR)
-//{
-//	scale = scale * increase;
-//}
-/// /
-/// </summary>
-
 public enum turn {LEFT, RIGHT};
 
 

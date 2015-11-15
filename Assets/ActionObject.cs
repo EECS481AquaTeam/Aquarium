@@ -18,6 +18,7 @@ public class ActionObject : MonoBehaviour {
 		speed = GetRandomVector (8);
 		
 		Debug.Log ("created");
+		Debug.Log (pos);
 	}
 	
 	// Destroy the object if it is outside the frame of the camera
@@ -55,7 +56,7 @@ public class ActionObject : MonoBehaviour {
 	}
 	
 	public void MoveTowardsTarget( Vector3 targetPosition) {
-		pos = Vector3.MoveTowards (pos, targetPosition, .2f);
+		pos = Vector3.MoveTowards (pos, targetPosition, .08f);
 		/*
 		Vector3 directionOfTravel = targetPosition - pos;
 		
@@ -119,7 +120,7 @@ public class ActionObject : MonoBehaviour {
 		}
 	}
 	
-	private Vector3 GetRandomVector(int range=10)
+	public Vector3 GetRandomVector(int range=10)
 	{
 		return new Vector3(Random.Range (-8, 8),
 		                   Random.Range (-5, 5),
@@ -133,5 +134,4 @@ public class ActionObject : MonoBehaviour {
 		else
 			return false;
 	}
-
 }

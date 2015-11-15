@@ -40,12 +40,10 @@ public class Game : MonoBehaviour {
 			lineCount = 0;
 		}
 		foreach (whaleWithState w in whaleList) {
-			//print(w.whale.transform.position);
 			Whale script = w.whale.GetComponent<Whale>();
 			switch (w.state) {
 			case objectState.NORMAL:
 				if (script.ClickedOn ()) {
-					print ("clicked on is true");
 					w.state = objectState.MOVINGTO;
 					script.MoveTowardsTarget(targetPos);
 					targetPos.x = targetPos.x + (5 * count);

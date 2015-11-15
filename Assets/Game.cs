@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 public enum objectState {NORMAL, MOVINGTO, DONE};
+
 public class whaleWithState {
 	public GameObject whale;
 	public objectState state;
@@ -19,22 +20,14 @@ public class Game : MonoBehaviour {
 	public static bool shouldDive = false;
 	public Vector3 targetPos = new Vector3(-8,0,0);
 	
-	public GameObject w1;
-	public GameObject w2;
-	public GameObject w3;
-	public GameObject w4;
+	public GameObject[] ws;
 
 	whaleWithState[] whaleList = new whaleWithState[4];
 	
 	void Start() {
-		Instantiate (w1);
-		Instantiate (w2);
-		Instantiate (w3);
-		Instantiate (w4);
-		whaleList [0] = new whaleWithState (w1, objectState.NORMAL);
-		whaleList[1] = new whaleWithState(w2, objectState.NORMAL);
-		whaleList[2] = new whaleWithState(w3, objectState.NORMAL);
-		whaleList[3] = new whaleWithState(w4, objectState.NORMAL);
+		for (int i = 0; i < 4; ++i) {
+			whaleList [i] = new whaleWithState (Instantiate(ws[i]), objectState.NORMAL);
+		}
 	}
 	
 	void Update() {
@@ -47,12 +40,14 @@ public class Game : MonoBehaviour {
 			lineCount = 0;
 		}
 		foreach (whaleWithState w in whaleList) {
+			//print(w.whale.transform.position);
 			Whale script = w.whale.GetComponent<Whale>();
 			switch (w.state) {
 			case objectState.NORMAL:
 				if (script.ClickedOn ()) {
 					print ("clicked on is true");
 					w.state = objectState.MOVINGTO;
+					script.MoveTowardsTarget(targetPos);
 					targetPos.x = targetPos.x + (5 * count);
 					count ++;
 					break;

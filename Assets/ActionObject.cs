@@ -15,7 +15,8 @@ public class ActionObject : MonoBehaviour {
 	
 	public virtual void Awake()
 	{
-		targetLocation = pos = GetRandomVector (15);
+		targetLocation = pos = GetRandomVector (8);
+		//MoveTowardsTarget (targetLocation);
 		speed = Random.Range (5,8);
 		
 		Debug.Log ("constructed");
@@ -122,10 +123,10 @@ public class ActionObject : MonoBehaviour {
 		}
 	}
 	
-	public Vector3 GetRandomVector(int range=10)
+	public Vector3 GetRandomVector(int range)
 	{
-		return new Vector3(Random.Range (-8, 8),
-		                   Random.Range (-5, 5),
+		return new Vector3(Random.Range (-range, range),
+		                   Random.Range (-3, 3),
 		                   Random.Range (0, 5));
 	}
 	

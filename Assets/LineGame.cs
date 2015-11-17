@@ -99,7 +99,7 @@ public class LineGame : MonoBehaviour {
 			case objectState.DONE:
 				break;
 			case objectState.RESTART:
-				Vector3 whalePos = script.GetRandomVector(15);
+				Vector3 whalePos = script.GetRandomVector(8);
 				script.pos = whalePos;
 				script.targetLocation = whalePos;
 				w.state = objectState.NORMAL;

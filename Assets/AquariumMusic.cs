@@ -9,7 +9,7 @@ public class AquariumMusic : MonoBehaviour
 	public AudioClip positive;		// a clip of music with positive feedback
 	public AudioClip negative;		// a clip of music with negative feedback
 
-	public new AudioSource audio;
+	private new AudioSource audio;
 
 	// Use this for initialization
 	void Start ()

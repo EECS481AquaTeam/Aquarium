@@ -8,15 +8,15 @@ public class Main : MonoBehaviour
 	public GameObject lineGameButton;
 	public GameObject aquariumGameButton;
 
-	public Vector3 offscreen1 = new Vector3 (-12, 5, 1);
-	public Vector3 offscreen2 = new Vector3 (14, -6, 1);
-	public Vector3 offscreen3 = new Vector3 (3, 8, 1);
+	private Vector3 offscreen1 = new Vector3 (-12, 5, 1);
+	private Vector3 offscreen2 = new Vector3 (14, -6, 1);
+	private Vector3 offscreen3 = new Vector3 (3, 8, 1);
 
-	public Vector3 onscreen1 = new Vector3 (-6, 1, 1);
-	public Vector3 onscreen2 = new Vector3 (6, 1, 1);
-	public Vector3 onscreen3 = new Vector3 (0, 1, 1);
+	private Vector3 onscreen1 = new Vector3 (-6, 1, 1);
+	private Vector3 onscreen2 = new Vector3 (6, 1, 1);
+	private Vector3 onscreen3 = new Vector3 (0, 1, 1);
 
-	public AquariumMusic music;
+	private AquariumMusic music;
 
 	// Use this for initialization
 	void Start ()

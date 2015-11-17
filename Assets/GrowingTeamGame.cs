@@ -13,15 +13,14 @@ public class GrowingTeamGame : MonoBehaviour
 	public GameObject left;		// the left fish in the game
 	public GameObject right;	// the right fish in the game
 
-	public AquariumMusic music;
+	private AquariumMusic music;
 
-	public DateTime last;		// the last time that a fish has grown or shrunk
+	private DateTime last;		// the last time that a fish has grown or shrunk
 
-	public Vector3 offscreenLeft = new Vector3 (-14, 1, 1);
-	public Vector3 offscreenRight = new Vector3 (14, 1, 1);
-	
-	public Vector3 onscreenLeft = new Vector3 (-5, 1, 1);
-	public Vector3 onscreenRight = new Vector3 (5, 1, 1);
+	private Vector3 offscreenLeft = new Vector3 (-14, 1, 1);
+	private Vector3 offscreenRight = new Vector3 (14, 1, 1);
+	private Vector3 onscreenLeft = new Vector3 (-5, 1, 1);
+	private Vector3 onscreenRight = new Vector3 (5, 1, 1);
 
 	// Runs on the beginning of instantiation of this class
 	void Start() {

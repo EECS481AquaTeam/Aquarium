@@ -3,16 +3,7 @@ using System.Collections;
 
 static public class Utility {
 	private const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
-
-
-	static public void MusicChanger(AudioSource audio, AudioClip clip, bool loop, float volume)
-	{
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = volume;
-		audio.Play ();
-	}
-
+	
 	// Initializes the location of a fish
 	static public void InitializeFish(GameObject item, Vector3 location)
 	{
@@ -37,11 +28,12 @@ static public class Utility {
 		return Vector3.SqrMagnitude(a - b) < EQUAL_VECTORS;
 	}
 
+	// Returns a 3d vector with random values in the x, y and z plains within the given range
 	static public Vector3 GetRandomVector(int range=10)
 	{
-		return new Vector3(Random.Range (-8, 8),
-		                   Random.Range (-5, 5),
-		                   Random.Range (0, 5));
+		return new Vector3(Random.Range (-range, range),
+		                   Random.Range (-range, range),
+		                   Random.Range (-range, range));
 	}
 
 }

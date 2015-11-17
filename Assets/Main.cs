@@ -8,10 +8,6 @@ public class Main : MonoBehaviour
 	public GameObject lineGameButton;
 	public GameObject aquariumGameButton;
 
-	public AudioClip mainClip;	// a clip of Main background music
-	public AudioClip transitionClip; // a clip for transitioning between screens
-	public new AudioSource audio;
-
 	public Vector3 offscreen1 = new Vector3 (-12, 5, 1);
 	public Vector3 offscreen2 = new Vector3 (14, -6, 1);
 	public Vector3 offscreen3 = new Vector3 (3, 8, 1);
@@ -20,11 +16,12 @@ public class Main : MonoBehaviour
 	public Vector3 onscreen2 = new Vector3 (6, 1, 1);
 	public Vector3 onscreen3 = new Vector3 (0, 1, 1);
 
+	public AquariumMusic music;
+
 	// Use this for initialization
 	void Start ()
 	{
-		// set this class to incorporate the main camera's AudioSource
-		audio = GetComponent<AudioSource>();
+		music = GetComponent<AquariumMusic> ();
 
 		// Initialize each of the fish in the game
 		growingGameButton  = Instantiate (growingGameButton);
@@ -38,8 +35,6 @@ public class Main : MonoBehaviour
 		DisableGames ();
 
 		MoveOnScreen ();
-
-		StartMusic ();
 	}
 	
 	// Update is called once per frame
@@ -53,19 +48,19 @@ public class Main : MonoBehaviour
 		if (growingGame.ClickedOn ())
 		{
 			MoveOffScreen();
-			TransitionMusic();
+			music.PlayTransition();
 			GetComponent<GrowingTeamGame>().enabled = true;
 		}
 		else if (lineGame.ClickedOn ())
 		{
 			MoveOffScreen();
-			TransitionMusic();
+			music.PlayTransition();
 			GetComponent<LineGame>().enabled = true;
 		}
 		else if (aquariumGame.ClickedOn ())
 		{
 			MoveOffScreen();
-			TransitionMusic();
+			music.PlayTransition();
 //			aquariumGame.enabled = true;
 		}
 	}
@@ -96,14 +91,13 @@ public class Main : MonoBehaviour
 		//			GetComponent<GrowingTeamGame>().enabled = false;
 	}
 
-	void StartMusic()
-	{
-		Utility.MusicChanger (audio, mainClip, true, 0.5f);
-	}
-
-	void TransitionMusic()
-	{
-		Utility.MusicChanger (audio, transitionClip, false, 0.5f);
+	// Getter & setter for position of the object
+	public AquariumMusic mus {
+		get {
+			return music;
+		}
+		private set {
+		}
 	}
 }
 

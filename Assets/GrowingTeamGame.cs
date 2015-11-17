@@ -13,10 +13,7 @@ public class GrowingTeamGame : MonoBehaviour
 	public GameObject left;		// the left fish in the game
 	public GameObject right;	// the right fish in the game
 
-	public AudioClip negative;	// a clip of music with negative feedback
-	public AudioClip looping;	// a clip of music with background music
-	public AudioClip positive;	// a clip of music with positive feedback
-	public new AudioSource audio;
+	public AquariumMusic music;
 
 	public DateTime last;		// the last time that a fish has grown or shrunk
 
@@ -29,11 +26,10 @@ public class GrowingTeamGame : MonoBehaviour
 	// Runs on the beginning of instantiation of this class
 	void Start() {
 
-		if (GetComponent<Main>().enabled)
-			GetComponent<Main>().enabled = false;
+		if (GetComponent<Main> ().enabled)
+			GetComponent<Main> ().enabled = false;
 
-		// set this class to incorporate the main camera's AudioSource
-		audio = GetComponent<AudioSource>();
+		music = GetComponent<AquariumMusic>();
 
 		// Initialize each of the fish in the game
 		left = Instantiate (left);
@@ -43,8 +39,7 @@ public class GrowingTeamGame : MonoBehaviour
 
 		MoveOnScreen ();
 
-		SetRegularAudio ();	// begin the game with the default audio
-		UpdateTime ();		// set the initial time of the game
+		UpdateTime ();			 // set the initial time of the game
 	}
 
 	void OnEnable()
@@ -60,9 +55,6 @@ public class GrowingTeamGame : MonoBehaviour
 
 	// Runs once per frame
 	void Update() {
-
-		// Attempt to set the default audio
-		SetRegularAudio ();
 
 		// If it hasn't been half a second since the last action, don't do anything
 		if ((DateTime.Now - last).TotalSeconds < 0.5f)
@@ -134,31 +126,10 @@ public class GrowingTeamGame : MonoBehaviour
 	{
 		Utility.MoveHelper (left, offscreenLeft, right, offscreenRight);
 	}
-
-
-	void SetRegularAudio()
-	{
-		// if the clip is not playing, set it to the standard audio
-		if (!audio.isPlaying)
-		{
-			Utility.MusicChanger(audio, looping, true, 0.5f);
-		}
-	}
 	
-	void SetFeedbackAudio(AudioClip clip)
-	{
-		// if the clip is already playing, do nothing
-		if (audio.clip == clip && audio.isPlaying)
-		{
-			return;
-		}
-
-		Utility.MusicChanger (audio, clip, false, 0.75f);
-	}
-
 	void Grow(ActionObject item, turn new_state)
 	{
-		SetFeedbackAudio (positive);
+		music.PlayFeedback (music.pos);
 		
 		item.Grow (1.05f);
 
@@ -169,7 +140,7 @@ public class GrowingTeamGame : MonoBehaviour
 
 	void Shrink(ActionObject item1, ActionObject item2)
 	{
-		SetFeedbackAudio (negative);
+		music.PlayFeedback (music.neg);
 		
 		ShrinkHelper (item1);
 		ShrinkHelper (item2);

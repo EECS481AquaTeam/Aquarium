@@ -2,28 +2,42 @@
 using System.Collections;
 
 public class ActionObject : MonoBehaviour {
-
-	public static float INCREASE_FACTOR = 1.01f;// The rate at which the object grows
-	public static float DECREASE_FACTOR = 0.99f;// The rate at which the object shrinks
-	public static float NORMAL_SIZE = 1.0f;		// The normal scale of an object
-	public static int OBJECT_RADIUS = 50;		// How far around an object is considered touching the object
-	public static double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
 	
-	// Speed of a Fish at a given time (x,y,z) components
-	private Vector3 speed;
+	public const float INCREASE_FACTOR = 1.01f;// The rate at which the object grows
+	public const float DECREASE_FACTOR = 0.99f;// The rate at which the object shrinks
+	public const float NORMAL_SIZE = 1.0f;		// The normal scale of an object
+	public const int OBJECT_RADIUS = 50;		// How far around an object is considered touching the object
+	public const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
+	
+	public Vector3 targetLocation;
+	
+	private float speed;
 	
 	public virtual void Awake()
 	{
-		pos = GetRandomVector (15);
-		speed = GetRandomVector (8);
+		targetLocation = pos = GetRandomVector (15);
+		speed = Random.Range (5,8);
 		
-		Debug.Log ("created");
-		Debug.Log (pos);
+		Debug.Log ("constructed");
+	}
+	
+	// to initialize the location of an object, call Instiate(x); followed by x.Initialize(param1, param2,...);
+	public virtual void Initialize (Vector3 pos_, float speed_)
+	{
+		targetLocation = pos = pos_;
+		speed = speed_;
+		
+		Debug.Log ("initialized");
 	}
 	
 	// Destroy the object if it is outside the frame of the camera
 	public virtual void Update()
 	{
+		if (!V3Equal(pos, targetLocation))
+		{
+			MoveTowardsTarget (targetLocation);
+		}
+		
 		if (OutsideCamera ()) {
 			Destroy (gameObject);
 			Debug.Log ("destroyed");
@@ -31,9 +45,9 @@ public class ActionObject : MonoBehaviour {
 	}
 	
 	// The object grows if the mouse is clicking the object, and shrinks back to its normal size otherwize 
-	public void Grow ()
+	public void Grow (float increase=INCREASE_FACTOR)
 	{
-		scale = scale * INCREASE_FACTOR;
+		scale = scale * increase;
 	}
 	
 	public void Shrink ()
@@ -49,27 +63,15 @@ public class ActionObject : MonoBehaviour {
 	// Update the location by 1 unit of time
 	public void Move() {
 		Vector3 tempPos = pos;
-		tempPos.x += speed[0] * Time.deltaTime;
-		tempPos.y += speed[1] * Time.deltaTime;
-		tempPos.z += speed[2] * Time.deltaTime;
+		tempPos.x += speed * Time.deltaTime;
+		tempPos.y += speed * Time.deltaTime;
+		tempPos.z += speed * Time.deltaTime;
 		pos = tempPos;
 	}
 	
 	public void MoveTowardsTarget( Vector3 targetPosition) {
-		pos = Vector3.MoveTowards (pos, targetPosition, .08f);
-		/*
-		Vector3 directionOfTravel = targetPosition - pos;
-		
-		//now normalize the direction, since we only want the direction information
-		directionOfTravel.Normalize();
-		
-		//scale the movement on each axis by the directionOfTravel vector components
-		this.transform.Translate(
-			(directionOfTravel.x * speed[0] * Time.deltaTime),
-			(directionOfTravel.y * speed[1] * Time.deltaTime),
-			(directionOfTravel.z * speed[2] * Time.deltaTime),
-			Space.World);
-			*/
+		targetLocation = targetPosition;
+		pos = Vector3.MoveTowards (pos, targetPosition, speed*Time.deltaTime);
 	}
 	
 	public Vector3 PositionOnScreen()
@@ -104,19 +106,19 @@ public class ActionObject : MonoBehaviour {
 	public Vector3 scale
 	{
 		get {
-			return (this.transform.localScale);
+			return (transform.localScale);
 		} set {
-			this.transform.localScale = value;
+			transform.localScale = value;
 		}
 	}
 	
 	// Getter & setter for scale of the object
 	public Vector3 pos {
 		get {
-			return (this.transform.position);
+			return (transform.position);
 		}
 		set {
-			this.transform.position = value;
+			transform.position = value;
 		}
 	}
 	
@@ -134,4 +136,5 @@ public class ActionObject : MonoBehaviour {
 		else
 			return false;
 	}
+	
 }

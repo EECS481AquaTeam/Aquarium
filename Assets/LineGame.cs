@@ -2,8 +2,8 @@
 using UnityEngine;
 using System.Collections;
 
-//public enum objectState {NORMAL, MOVINGTO, DONE, SHOULD_DIVE, DIVING, RESTART};
-/*public class whaleWithState {
+public enum objectState {NORMAL, MOVINGTO, DONE, SHOULD_DIVE, DIVING, RESTART};
+public class whaleWithState {
 	public GameObject whale;
 	public objectState state;
 	public Vector3 targetPos;
@@ -14,9 +14,8 @@ using System.Collections;
 		targetPos = targetPosition;
 	}
 }
-*/
 
-public class Game : MonoBehaviour {
+public class LineGame : MonoBehaviour {
 	public static int count = 0;
 	public static int numObjects = 4; //hard coded this now, but make it dynamic later?
 	public static int lineCount = 0;
@@ -28,8 +27,9 @@ public class Game : MonoBehaviour {
 	public new AudioClip positive;
 	public static bool audioIsPlaying = false;
 
+	public bool isAtTargetPos = false;
+
 	public GameObject[] ws;
-	public GameObject testWhale;
 	
 	whaleWithState[] whaleList = new whaleWithState[4];
 	
@@ -54,12 +54,13 @@ public class Game : MonoBehaviour {
 					if (script.ClickedOn ()) {
 						print ("clicked on is true");
 						w.state = objectState.MOVINGTO;
+						script.MoveTowardsTarget(w.targetPos);
 						break;
 					}
 				break;
 			case objectState.MOVINGTO:
 				print ("MOVING TO");
-				if (script.pos == w.targetPos) {
+				if (ActionObject.V3Equal(script.pos, w.targetPos)) {
 					lineCount++;
 					if (lineCount == numObjects) {
 						//all objects must dive
@@ -67,27 +68,23 @@ public class Game : MonoBehaviour {
 						foreach (whaleWithState item in whaleList) {
 							item.state = objectState.SHOULD_DIVE;
 						}
-					} else {
+					} 
+					else {
 						w.state = objectState.DONE;
 					}
-				}
-				else {
-					script.MoveTowardsTarget(w.targetPos);
 				}
 				break;
 			case objectState.SHOULD_DIVE:
 				print ("DIVING");
 				w.targetPos.x--;
 				w.targetPos.y = -2;
-				//w.whale.GetComponent<Whale>().Die();
+				script.MoveTowardsTarget(w.targetPos);
 				w.state = objectState.DIVING;
-				//StartCoroutine(SomeCoroutine(w));
-				//w.state = objectState.DONE;
 				lineCount--;
 				break;
 			case objectState.DIVING:
 				print ("IS DIVING");
-				if (script.pos == w.targetPos) {
+				if (ActionObject.V3Equal(script.pos, w.targetPos)) {
 					lineCount++;
 					if (lineCount == numObjects) {
 						//all objects must dive
@@ -98,15 +95,13 @@ public class Game : MonoBehaviour {
 						w.state = objectState.DONE;
 					}
 				}
-				else {
-					script.MoveTowardsTarget(w.targetPos);
-				}
 				break;
 			case objectState.DONE:
 				break;
 			case objectState.RESTART:
 				Vector3 whalePos = script.GetRandomVector(15);
 				script.pos = whalePos;
+				script.targetLocation = whalePos;
 				w.state = objectState.NORMAL;
 				w.targetPos.y = 0;
 				lineCount--;

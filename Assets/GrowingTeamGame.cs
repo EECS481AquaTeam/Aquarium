@@ -127,19 +127,14 @@ public class GrowingTeamGame : MonoBehaviour
 
 	void MoveOnScreen()
 	{
-		MoveHelper (onscreenLeft, onscreenRight);
+		Utility.MoveHelper (left, onscreenLeft, right, onscreenRight);
 	}
 	
 	void MoveOffScreen()
 	{
-		MoveHelper (offscreenLeft, offscreenRight);
+		Utility.MoveHelper (left, offscreenLeft, right, offscreenRight);
 	}
-	
-	void MoveHelper(Vector3 v1, Vector3 v2)
-	{
-		left .GetComponent<ActionObject> ().MoveTowardsTarget(v1);
-		right.GetComponent<ActionObject> ().MoveTowardsTarget(v2);
-	}
+
 
 	void SetRegularAudio()
 	{

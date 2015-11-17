@@ -78,19 +78,12 @@ public class Main : MonoBehaviour
 
 	void MoveOnScreen()
 	{
-		MoveHelper (onscreen1, onscreen2, onscreen3);
+		Utility.MoveHelper (growingGameButton, onscreen1, lineGameButton, onscreen2, aquariumGameButton, onscreen3);
 	}
 
 	void MoveOffScreen()
 	{
-		MoveHelper (offscreen1, offscreen2, offscreen3);
-	}
-
-	void MoveHelper(Vector3 v1, Vector3 v2, Vector3 v3)
-	{
-		growingGameButton .GetComponent<ActionObject> ().MoveTowardsTarget(v1);
-		lineGameButton    .GetComponent<ActionObject> ().MoveTowardsTarget(v2);
-		aquariumGameButton.GetComponent<ActionObject> ().MoveTowardsTarget(v3);
+		Utility.MoveHelper (growingGameButton, offscreen1, lineGameButton, offscreen2, aquariumGameButton, offscreen3);
 	}
 
 	void DisableGames()

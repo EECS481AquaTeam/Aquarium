@@ -9,11 +9,13 @@ public class ActionObject : MonoBehaviour {
 	public const int OBJECT_RADIUS = 50;		// How far around an object is considered touching the object
 	public const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
 
+	public Vector3 targetLocation;
+
 	private float speed;
 	
 	public virtual void Awake()
 	{
-		pos = GetRandomVector (15);
+		targetLocation = pos = GetRandomVector (15);
 		speed = Random.Range (5,8);
 
 		Debug.Log ("contstructed");
@@ -22,7 +24,7 @@ public class ActionObject : MonoBehaviour {
 	// to initialize the location of an object, call Instiate(x); followed by x.Initialize(param1, param2,...);
 	public virtual void Initialize (Vector3 pos_, float speed_)
 	{
-		pos = pos_;
+		targetLocation = pos = pos_;
 		speed = speed_;
 
 		Debug.Log ("initialized");
@@ -31,6 +33,11 @@ public class ActionObject : MonoBehaviour {
 	// Destroy the object if it is outside the frame of the camera
 	public virtual void Update()
 	{
+		if (!V3Equal(pos, targetLocation))
+		{
+			MoveTowardsTarget (targetLocation);
+		}
+
 		if (OutsideCamera ()) {
 			Destroy (gameObject);
 			Debug.Log ("destroyed");
@@ -63,6 +70,7 @@ public class ActionObject : MonoBehaviour {
 	}
 	
 	public void MoveTowardsTarget( Vector3 targetPosition) {
+		targetLocation = targetPosition;
 		pos = Vector3.MoveTowards (pos, targetPosition, speed*Time.deltaTime);
 	}
 	

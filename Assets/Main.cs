@@ -13,7 +13,7 @@ public class Main : MonoBehaviour
 	public new AudioSource audio;
 
 	public Vector3 offscreen1 = new Vector3 (-12, 5, 1);
-	public Vector3 offscreen2 = new Vector3 (12, -3, 1);
+	public Vector3 offscreen2 = new Vector3 (14, -6, 1);
 	public Vector3 offscreen3 = new Vector3 (3, 8, 1);
 
 	public Vector3 onscreen1 = new Vector3 (-6, 1, 1);
@@ -31,9 +31,9 @@ public class Main : MonoBehaviour
 		lineGameButton     = Instantiate (lineGameButton);
 		aquariumGameButton = Instantiate (aquariumGameButton);
 
-		InitializeFish (growingGameButton,  offscreen1);
-		InitializeFish (lineGameButton,     offscreen2);
-		InitializeFish (aquariumGameButton, offscreen3);
+		Utility.InitializeFish (growingGameButton,  offscreen1);
+		Utility.InitializeFish (lineGameButton,     offscreen2);
+		Utility.InitializeFish (aquariumGameButton, offscreen3);
 
 		DisableGames ();
 
@@ -53,16 +53,19 @@ public class Main : MonoBehaviour
 		if (growingGame.ClickedOn ())
 		{
 			MoveOffScreen();
+			TransitionMusic();
 			GetComponent<GrowingTeamGame>().enabled = true;
 		}
 		else if (lineGame.ClickedOn ())
 		{
 			MoveOffScreen();
-			GetComponent<Game>().enabled = true;
+			TransitionMusic();
+			GetComponent<LineGame>().enabled = true;
 		}
 		else if (aquariumGame.ClickedOn ())
 		{
 			MoveOffScreen();
+			TransitionMusic();
 //			aquariumGame.enabled = true;
 		}
 	}
@@ -71,12 +74,6 @@ public class Main : MonoBehaviour
 	{
 		DisableGames ();
 		MoveOnScreen ();
-	}
-
-	// Initializes the location of a fish
-	void InitializeFish(GameObject item, Vector3 location)
-	{
-		item.GetComponent<ActionObject>().Initialize(location, 5f);
 	}
 
 	void MoveOnScreen()
@@ -100,28 +97,20 @@ public class Main : MonoBehaviour
 	{
 		if (GetComponent<GrowingTeamGame>().enabled)
 			GetComponent<GrowingTeamGame>().enabled = false;
-		if (GetComponent<Game>().enabled)
-			GetComponent<Game>().enabled = false;
+		if (GetComponent<LineGame>().enabled)
+			GetComponent<LineGame>().enabled = false;
 		//		if (GetComponent<Aqu>().enabled)
 		//			GetComponent<GrowingTeamGame>().enabled = false;
 	}
 
 	void StartMusic()
 	{
-		MusicHelper (mainClip, true, 0.5f);
+		Utility.MusicChanger (audio, mainClip, true, 0.5f);
 	}
 
 	void TransitionMusic()
 	{
-		MusicHelper (transitionClip, false, 0.5f);
-	}
-
-	void MusicHelper(AudioClip clip, bool loop, float volume)
-	{
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = volume;
-		audio.Play ();
+		Utility.MusicChanger (audio, transitionClip, false, 0.5f);
 	}
 }
 

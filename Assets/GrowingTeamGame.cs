@@ -6,7 +6,7 @@ public enum turn {LEFT, RIGHT, START, END};
 
 public class GrowingTeamGame : MonoBehaviour
 {
-	public static float WINNER_SCALE = 1.2f;
+	public static float WINNER_SCALE = 1.5f;
 
 	turn turnState = turn.START; // which fish should grow next? 
 	
@@ -38,8 +38,10 @@ public class GrowingTeamGame : MonoBehaviour
 		// Initialize each of the fish in the game
 		left = Instantiate (left);
 		right = Instantiate (right);
-		InitializeFish (left, onscreenLeft);
-		InitializeFish (right, onscreenRight);
+		Utility.InitializeFish (left, offscreenLeft);
+		Utility.InitializeFish (right, offscreenRight);
+
+		MoveOnScreen ();
 
 		SetRegularAudio ();	// begin the game with the default audio
 		UpdateTime ();		// set the initial time of the game
@@ -54,12 +56,6 @@ public class GrowingTeamGame : MonoBehaviour
 		turnState = turn.START;
 
 		RescaleFish ();
-	}
-
-	// Initializes the location of a fish
-	void InitializeFish(GameObject item, Vector3 location)
-	{
-		item.GetComponent<ActionObject>().Initialize(location, 5f);
 	}
 
 	// Runs once per frame
@@ -145,13 +141,12 @@ public class GrowingTeamGame : MonoBehaviour
 		right.GetComponent<ActionObject> ().MoveTowardsTarget(v2);
 	}
 
-
 	void SetRegularAudio()
 	{
 		// if the clip is not playing, set it to the standard audio
 		if (!audio.isPlaying)
 		{
-			MusicHelper(looping, true, 0.5f);
+			Utility.MusicChanger(audio, looping, true, 0.5f);
 		}
 	}
 	
@@ -163,15 +158,7 @@ public class GrowingTeamGame : MonoBehaviour
 			return;
 		}
 
-		MusicHelper (clip, false, 0.75f);
-	}
-
-	void MusicHelper(AudioClip clip, bool loop, float volume)
-	{
-		audio.clip = clip;
-		audio.loop = loop;
-		audio.volume = volume;
-		audio.Play ();
+		Utility.MusicChanger (audio, clip, false, 0.75f);
 	}
 
 	void Grow(ActionObject item, turn new_state)

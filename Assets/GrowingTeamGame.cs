@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public enum turn {LEFT, RIGHT, START};
+public enum turn {LEFT, RIGHT, START, END};
 
 public class GrowingTeamGame : MonoBehaviour
 {
-	public static float WINNER_SCALE = 2.0f;
+	public static float WINNER_SCALE = 1.2f;
 
-	turn turnState = turn.START;
+	turn turnState = turn.START; // which fish should grow next? 
 	
 	public GameObject left;		// the left fish in the game
 	public GameObject right;	// the right fish in the game
@@ -19,24 +19,50 @@ public class GrowingTeamGame : MonoBehaviour
 	public new AudioSource audio;
 
 	public DateTime last;		// the last time that a fish has grown or shrunk
-	
-	void Start() {
-		left = Instantiate (left);
-		InitializeFish (left, new Vector3 (-5, 1, 1));
-		right = Instantiate (right);
-		InitializeFish (right, new Vector3 (5, 1, 1));
 
+	public Vector3 offscreenLeft = new Vector3 (-14, 1, 1);
+	public Vector3 offscreenRight = new Vector3 (14, 1, 1);
+	
+	public Vector3 onscreenLeft = new Vector3 (-5, 1, 1);
+	public Vector3 onscreenRight = new Vector3 (5, 1, 1);
+
+	// Runs on the beginning of instantiation of this class
+	void Start() {
+
+		if (GetComponent<Main>().enabled)
+			GetComponent<Main>().enabled = false;
+
+		// set this class to incorporate the main camera's AudioSource
 		audio = GetComponent<AudioSource>();
 
-		SetRegularAudio ();
-		UpdateTime ();
+		// Initialize each of the fish in the game
+		left = Instantiate (left);
+		right = Instantiate (right);
+		InitializeFish (left, onscreenLeft);
+		InitializeFish (right, onscreenRight);
+
+		SetRegularAudio ();	// begin the game with the default audio
+		UpdateTime ();		// set the initial time of the game
 	}
 
+	void OnEnable()
+	{
+		if (GetComponent<Main>().enabled)
+			GetComponent<Main>().enabled = false;
+
+		MoveOnScreen ();
+		turnState = turn.START;
+
+		RescaleFish ();
+	}
+
+	// Initializes the location of a fish
 	void InitializeFish(GameObject item, Vector3 location)
 	{
-		item.GetComponent<ActionObject>().Initialize(location, 0f);
+		item.GetComponent<ActionObject>().Initialize(location, 5f);
 	}
 
+	// Runs once per frame
 	void Update() {
 
 		// Attempt to set the default audio
@@ -47,14 +73,16 @@ public class GrowingTeamGame : MonoBehaviour
 			return;
 
 		// If a fish has already been clicked, 
-		if (turnState != turn.START) {
+		if (turnState == turn.LEFT || turnState == turn.RIGHT) {
+
+			// set grower to be the fish whose turn it is to grow
 			ActionObject grower = (turnState == turn.LEFT) ? left.GetComponent<ActionObject> () : right.GetComponent<ActionObject> ();
+			// set shrinker to be the fish whose turn it isn't to grow (it will shrink if clicked)
 			ActionObject shrinker = (turnState == turn.RIGHT) ? left.GetComponent<ActionObject> () : right.GetComponent<ActionObject> ();
 		
-			// If the proper whale is clicked on, grow it
+			// If the proper fish is clicked on, grow it
 			if (grower.ClickedOn ()) {
-				Grow (grower);
-				turnState = (turnState == turn.LEFT) ? turn.RIGHT : turn.LEFT;
+				Grow (grower, (turnState == turn.LEFT) ? turn.RIGHT : turn.LEFT);
 			}
 
 			// If the improper whale is clicked on, shrink both whales
@@ -62,36 +90,68 @@ public class GrowingTeamGame : MonoBehaviour
 				Shrink (grower, shrinker);
 			}
 
-			if (grower.scale [0] > WINNER_SCALE && shrinker.scale [0] > WINNER_SCALE) {
-				//end the game with a reward and move back to regular mode
+			// If both of the fish are of the winning scale, the user wins!
+			if (WinningScale (grower) && WinningScale (shrinker)) {
+				turnState = turn.END;
+				MoveOffScreen();
+				GetComponent<Main>().enabled = true;
 			}
 		}
-		else
-		{
+
+		// No fish has been clicked yet
+		else if (turnState == turn.START) {
+
+			// Get the ActionObject components of each of the fish
 			ActionObject left_ob = left.GetComponent<ActionObject> ();
 			ActionObject right_ob = right.GetComponent<ActionObject> ();
-			if (left_ob.ClickedOn())
+
+			// Grow a fish if it is clicked on
+			if (left_ob.ClickedOn ())
 			{
-				Grow(left_ob);
-				turnState = turn.RIGHT;
+				Grow (left_ob, turn.RIGHT);
 			}
-			else if (right_ob.ClickedOn())
+			else if (right_ob.ClickedOn ())
 			{
-				Grow(right_ob);
-				turnState = turn.LEFT;
+				Grow (right_ob, turn.LEFT);
 			}
 		}
+		else if (turnState == turn.END)
+		{
+
+		}
 	}
+
+	void RescaleFish()
+	{
+		Vector3 s = left.GetComponent<ActionObject> ().scale;
+		left.GetComponent<ActionObject> ().scale = new Vector3 (s.x / WINNER_SCALE, s.y / WINNER_SCALE, s.z / WINNER_SCALE);
+		s = right.GetComponent<ActionObject> ().scale;
+		right.GetComponent<ActionObject> ().scale = new Vector3 (s.x / WINNER_SCALE, s.y / WINNER_SCALE, s.z / WINNER_SCALE);
+	}
+
+	void MoveOnScreen()
+	{
+		MoveHelper (onscreenLeft, onscreenRight);
+	}
+	
+	void MoveOffScreen()
+	{
+		MoveHelper (offscreenLeft, offscreenRight);
+	}
+	
+	void MoveHelper(Vector3 v1, Vector3 v2)
+	{
+		left .GetComponent<ActionObject> ().MoveTowardsTarget(v1);
+		right.GetComponent<ActionObject> ().MoveTowardsTarget(v2);
+	}
+
 
 	void SetRegularAudio()
 	{
 		// if the clip is not playing, set it to the standard audio
 		if (!audio.isPlaying)
 		{
-			audio.clip = looping;
-			audio.loop = true;
-			audio.volume = 0.5f;
-			audio.Play ();
+			MusicHelper(looping, true, 0.5f);
 		}
 	}
 	
@@ -103,17 +163,24 @@ public class GrowingTeamGame : MonoBehaviour
 			return;
 		}
 
+		MusicHelper (clip, false, 0.75f);
+	}
+
+	void MusicHelper(AudioClip clip, bool loop, float volume)
+	{
 		audio.clip = clip;
-		audio.loop = false;
-		audio.volume = 0.75f;
+		audio.loop = loop;
+		audio.volume = volume;
 		audio.Play ();
 	}
 
-	void Grow(ActionObject item)
+	void Grow(ActionObject item, turn new_state)
 	{
 		SetFeedbackAudio (positive);
 		
 		item.Grow (1.05f);
+
+		turnState = new_state;
 		
 		UpdateTime ();
 	}
@@ -134,6 +201,11 @@ public class GrowingTeamGame : MonoBehaviour
 		{
 			item.Grow (0.95f);
 		}
+	}
+
+	bool WinningScale(ActionObject item)
+	{
+		return item.scale [0] >= WINNER_SCALE;
 	}
 
 	void UpdateTime()

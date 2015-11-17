@@ -17,8 +17,6 @@ public class ActionObject : MonoBehaviour {
 	{
 		targetLocation = pos = GetRandomVector (15);
 		speed = Random.Range (5,8);
-
-		Debug.Log ("contstructed");
 	}
 
 	// to initialize the location of an object, call Instiate(x); followed by x.Initialize(param1, param2,...);
@@ -26,8 +24,6 @@ public class ActionObject : MonoBehaviour {
 	{
 		targetLocation = pos = pos_;
 		speed = speed_;
-
-		Debug.Log ("initialized");
 	}
 	
 	// Destroy the object if it is outside the frame of the camera
@@ -122,7 +118,7 @@ public class ActionObject : MonoBehaviour {
 		}
 	}
 	
-	private Vector3 GetRandomVector(int range=10)
+	public Vector3 GetRandomVector(int range=10)
 	{
 		return new Vector3(Random.Range (-8, 8),
 		                   Random.Range (-5, 5),

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 static public class Utility {
+	private const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
+
 
 	static public void MusicChanger(AudioSource audio, AudioClip clip, bool loop, float volume)
 	{
@@ -29,4 +30,18 @@ static public class Utility {
 		MoveHelper (g1, v1, g2, v2);
 		g3.GetComponent<ActionObject> ().MoveTowardsTarget(v3);
 	}
+
+	// Defines vectors to be equal if the magnitude of their difference is sufficiently small 
+	static public bool V3Equal(Vector3 a, Vector3 b)
+	{
+		return Vector3.SqrMagnitude(a - b) < EQUAL_VECTORS;
+	}
+
+	static public Vector3 GetRandomVector(int range=10)
+	{
+		return new Vector3(Random.Range (-8, 8),
+		                   Random.Range (-5, 5),
+		                   Random.Range (0, 5));
+	}
+
 }

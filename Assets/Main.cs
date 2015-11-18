@@ -43,9 +43,9 @@ public class Main : MonoBehaviour
 
 
 	void OnGUI() {
-		GUI.Label(new Rect(40, 250, 140, 350), "Grow Game!");
-		GUI.Label(new Rect(260, 250, 360, 350), "Aquarium!");
-		GUI.Label(new Rect(460, 250, 660, 350), "Line Game!");
+		GUI.Label(new Rect(300, 500, 400, 600), "Grow Game!");
+		GUI.Label(new Rect(800, 500, 900, 600), "Aquarium!");
+		GUI.Label(new Rect(1250, 500, 1350, 600), "Line Game!");
 	}
 	
 	// Update is called once per frame

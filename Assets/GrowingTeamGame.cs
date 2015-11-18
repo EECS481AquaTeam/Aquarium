@@ -25,7 +25,6 @@ public class GrowingTeamGame : MonoBehaviour
 
 	// Runs on the beginning of instantiation of this class
 	void Start() {
-
 		if (GetComponent<Main> ().enabled)
 			GetComponent<Main> ().enabled = false;
 

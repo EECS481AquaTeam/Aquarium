@@ -22,6 +22,7 @@ public class Main : MonoBehaviour
 	void Start ()
 	{
 		music = GetComponent<AquariumMusic> ();
+		music.PlayBackground ();
 
 		// Initialize each of the fish in the game
 		growingGameButton  = Instantiate (growingGameButton);
@@ -68,7 +69,7 @@ public class Main : MonoBehaviour
 		{
 			MoveOffScreen();
 			music.PlayTransition();
-//			aquariumGame.enabled = true;
+			GetComponent<AquariumGame>().enabled = true;
 		}
 	}
 
@@ -94,8 +95,8 @@ public class Main : MonoBehaviour
 			GetComponent<GrowingTeamGame>().enabled = false;
 		if (GetComponent<LineGame>().enabled)
 			GetComponent<LineGame>().enabled = false;
-		//		if (GetComponent<Aqu>().enabled)
-		//			GetComponent<GrowingTeamGame>().enabled = false;
+		if (GetComponent<AquariumGame>().enabled)
+			GetComponent<AquariumGame>().enabled = false;
 	}
 
 	// Getter & setter for position of the object

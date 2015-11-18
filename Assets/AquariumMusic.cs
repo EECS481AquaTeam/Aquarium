@@ -28,7 +28,7 @@ public class AquariumMusic : MonoBehaviour
 
 	public void PlayBackground()
 	{
-		MusicChanger (background, true, 0.5f);
+		MusicChanger (background, true, 1.0f);
 	}
 
 	public void PlayTransition()

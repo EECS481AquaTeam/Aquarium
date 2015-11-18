@@ -16,7 +16,7 @@ public class ActionObject : MonoBehaviour {
 	
 	public virtual void Awake()
 	{
-		targetLocation = pos = Utility.GetRandomVector (15);
+		targetLocation = pos = Utility.GetRandomVector (10.0f);
 		speed = Random.Range (5,8);
 	}
 
@@ -73,7 +73,8 @@ public class ActionObject : MonoBehaviour {
 	
 	public Vector3 PositionOnScreen()
 	{
-		return Camera.main.WorldToScreenPoint (pos);
+		//return Camera.main.WorldToScreenPoint (pos);
+		return this.transform.localPosition;
 	}
 	
 	public bool ClickedOn(bool kinectClickedOn, Vector3 clickedPos)

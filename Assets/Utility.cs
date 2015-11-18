@@ -29,11 +29,11 @@ static public class Utility {
 	}
 
 	// Returns a 3d vector with random values in the x, y and z plains within the given range
-	static public Vector3 GetRandomVector(int range=8)
+	static public Vector3 GetRandomVector(float range=10)
 	{
-		return new Vector3(Random.Range (-range, range),
-		                   Random.Range (-3, 3),
-		                   Random.Range (0, 5));
+		return new Vector3(Random.Range (1f, range-1f),
+		                   Random.Range (3f, range-1f),
+		                   0f);
 	}
 
 }

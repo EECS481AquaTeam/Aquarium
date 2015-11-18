@@ -12,9 +12,9 @@ public class Main : MonoBehaviour
 	private Vector3 offscreen2 = new Vector3 (14, -6, 1);
 	private Vector3 offscreen3 = new Vector3 (3, 8, 1);
 
-	private Vector3 onscreen1 = new Vector3 (-6, 1, 1);
-	private Vector3 onscreen2 = new Vector3 (6, 1, 1);
-	private Vector3 onscreen3 = new Vector3 (0, 1, 1);
+	private Vector3 onscreen1 = new Vector3 (0f, 5f, 0f);
+	private Vector3 onscreen2 = new Vector3 (10f, 5f, 0f);
+	private Vector3 onscreen3 = new Vector3 (5f, 5f, 0f);
 
 	public Vector3 clickedPos = new Vector3 (-100, -100, -100); //kevin
 	public bool kinectClickedOn = false;
@@ -79,7 +79,10 @@ public class Main : MonoBehaviour
 	}
 
 	void OnEnable()
-	{
+	{	
+		Camera mainCam;
+		mainCam = Camera.main;
+		mainCam.transform.position = new Vector3 (5f, 5f, -7f);
 		DisableGames ();
 		MoveOnScreen ();
 	}

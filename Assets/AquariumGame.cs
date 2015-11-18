@@ -85,7 +85,6 @@ public class AquariumGame : MonoBehaviour {
 				w.whale.GetComponent<ActionObject>().MoveTowardsTarget(off);
 			}
 		}
-		Debug.Log ("Increment line count" + lineCount);
 		lineCount = 0;
 
 	}

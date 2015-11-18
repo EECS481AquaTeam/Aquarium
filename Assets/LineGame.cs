@@ -51,12 +51,15 @@ public class LineGame : MonoBehaviour {
 	
 	void OnEnable()
 	{
+		Camera mainCam;
+		mainCam = Camera.main;
+		mainCam.transform.position = new Vector3 (5f, 5f, -7f);
 		Debug.Log ("Line Game Enabled");
 		end = false;
 		if (GetComponent<Main>().enabled)
 			GetComponent<Main>().enabled = false;
 		
-		targetPos = new Vector3(-5,0,0);
+		targetPos = new Vector3(0f,2f,2f);
 		for (int i = 0; i < 4; ++i) {
 			whaleList [i] = new whaleWithState (Instantiate(ws[i]), objectState.NORMAL, targetPos, diveTargetPos);
 			Debug.Log ("Instantiate whale");

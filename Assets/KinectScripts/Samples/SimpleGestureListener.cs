@@ -45,7 +45,6 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 	                              float progress, KinectWrapper.NuiSkeletonPositionIndex joint, Vector3 screenPos)
 	{
 		//GestureInfo.guiText.text = string.Format("{0} Progress: {1:F1}%", gesture, (progress * 100));
-		print ("PROGRESS");
 		if(gesture == KinectGestures.Gestures.Click && progress > 0.3f)
 		{
 			string sGestureText = string.Format ("{0} {1:F1}% complete", gesture, progress * 100);

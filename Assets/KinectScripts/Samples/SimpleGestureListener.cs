@@ -7,13 +7,14 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 	// GUI Text to display the gesture messages.
 	public GUIText GestureInfo;
 	public Vector3 clickedPos;
-	
+
 	// private bool to track if progress message has been displayed
 	private bool progressDisplayed;
 	
 	
 	public void UserDetected(uint userId, int userIndex)
 	{
+		print ("SGL USER DETECTED");
 		// as an example - detect these user specific gestures
 		KinectManager manager = KinectManager.Instance;
 		
@@ -44,6 +45,7 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 	                              float progress, KinectWrapper.NuiSkeletonPositionIndex joint, Vector3 screenPos)
 	{
 		//GestureInfo.guiText.text = string.Format("{0} Progress: {1:F1}%", gesture, (progress * 100));
+		print ("PROGRESS");
 		if(gesture == KinectGestures.Gestures.Click && progress > 0.3f)
 		{
 			string sGestureText = string.Format ("{0} {1:F1}% complete", gesture, progress * 100);
@@ -82,6 +84,12 @@ public class SimpleGestureListener : MonoBehaviour, KinectGestures.GestureListen
 			clickedPos.y = screenPos.y;
 			GetComponent<LineGame> ().kinectClickedOn = true;
 			GetComponent<LineGame> ().clickedPos = clickedPos;
+			GetComponent<Main> ().kinectClickedOn = true;
+			GetComponent<Main> ().clickedPos = clickedPos;
+			GetComponent<GrowingTeamGame> ().kinectClickedOn = true;
+			GetComponent<GrowingTeamGame> ().clickedPos = clickedPos;
+			GetComponent<AquariumGame> ().kinectClickedOn = true;
+			GetComponent<AquariumGame> ().clickedPos = clickedPos;
 		}
 		
 		if(GestureInfo != null)

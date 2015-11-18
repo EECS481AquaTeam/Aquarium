@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum Color {red, green, blue, yellow};
+public enum FishColor {red, green, blue, yellow};
 
 public class Fish : ActionObject {
 	
@@ -9,17 +9,16 @@ public class Fish : ActionObject {
 	public override void Awake () {
 		base.Awake ();
 
-		Color color = (Color)Random.Range(0, 4);
+		FishColor color = (FishColor)Random.Range(0, 4);
 
-		if (color == Color.red) {
+		if (color == FishColor.red) {
 			gameObject.GetComponent<Renderer> ().material.color = Color.red;
-		} else if (color == Color.green) {
+		} else if (color == FishColor.green) {
 			gameObject.GetComponent<Renderer> ().material.color = Color.green;
-		} else if (color == Color.blue) {
+		} else if (color == FishColor.blue) {
 			gameObject.GetComponent<Renderer>().material.color = Color.blue;
-		} else if (color == Color.yellow) {
+		} else if (color == FishColor.yellow) {
 			gameObject.GetComponent<Renderer>().material.color = Color.yellow;
 		}
-
 	}
 }

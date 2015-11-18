@@ -18,7 +18,7 @@ public class ActionObject : MonoBehaviour {
 		speed = Random.Range (5,8);
 	}
 
-	// to initialize the location of an object, call Instiate(x); followed by x.Initialize(param1, param2,...);
+	// to initialize the location of an object, call Insantiate(x); followed by x.Initialize(param1, param2,...);
 	public virtual void Initialize (Vector3 pos_, float speed_)
 	{
 		targetLocation = pos = pos_;

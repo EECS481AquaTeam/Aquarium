@@ -27,5 +27,4 @@ public class Whale : ActionObject {
 	{
 		GetComponent<Animation> ().Play("death");
 	}
-
 }

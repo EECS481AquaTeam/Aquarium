@@ -13,10 +13,11 @@ public class GrowingTeamGame : MonoBehaviour
 	public GameObject left;		// the left fish in the game
 	public GameObject right;	// the right fish in the game
 
-	private AquariumMusic music;
+	private AquariumMusic music;  // how this module plays music in the application
 
 	private DateTime last;		// the last time that a fish has grown or shrunk
 
+	// locations for the fish on and off screen
 	private Vector3 offscreenLeft = new Vector3 (-14, 1, 1);
 	private Vector3 offscreenRight = new Vector3 (14, 1, 1);
 	private Vector3 onscreenLeft = new Vector3 (-5, 1, 1);

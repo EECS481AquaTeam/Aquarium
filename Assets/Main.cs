@@ -36,6 +36,13 @@ public class Main : MonoBehaviour
 
 		MoveOnScreen ();
 	}
+
+
+	void OnGUI() {
+		GUI.Label(new Rect(40, 250, 140, 350), "Grow Game!");
+		GUI.Label(new Rect(260, 250, 360, 350), "Aquarium!");
+		GUI.Label(new Rect(460, 250, 660, 350), "Line Game!");
+	}
 	
 	// Update is called once per frame
 	void Update ()

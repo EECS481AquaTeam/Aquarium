@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 
@@ -7,46 +6,49 @@ public class whaleWithState {
 	public GameObject whale;
 	public objectState state;
 	public Vector3 targetPos;
+	public Vector3 diveTargetPos;
 	public int timer = 1000;
-	public whaleWithState(GameObject w, objectState s, Vector3 targetPosition) {
+	public whaleWithState(GameObject w, objectState s, Vector3 targetPosition, Vector3 diveTargetPosition) {
 		whale = w;
 		state = s;
 		targetPos = targetPosition;
+		diveTargetPos = diveTargetPosition;
 	}
 }
 
 public class LineGame : MonoBehaviour {
 	public static int count = 0;
-	public static int numObjects = 4; //hard coded this now, but make it dynamic later?
+	public static int numObjects = 4; 
 	public static int lineCount = 0;
-	public static int timer = 1000;
-	public static bool shouldDive = false;
-	public Vector3 targetPos = new Vector3(-5,0,0);
 
-	public Vector3 offscreenPos = new Vector3 (-12,-1,1);
+	public Vector3 targetPos = new Vector3(-5,0,0);
+	public Vector3 diveTargetPos = new Vector3 (0, 0, 0);
+
+	public Vector3 offscreenPos = new Vector3 (-12,0,0);
+
+	public Vector3 onscreenPos;
 
 	public new AudioSource audio;
 	public new AudioClip positive;
-	public static bool audioIsPlaying = false;
-
-	public bool onscreen = false;
+	public static bool audioIsPlaying = true;
+	
 	public bool end = false;
 
-	public bool isAtTargetPos = false;
 	public Vector3 whalePos;
 
 	public GameObject[] ws;
 	
-	whaleWithState[] whaleList = new whaleWithState[4];
+	public whaleWithState[] whaleList = new whaleWithState[4];
 	
 	void Start() {
 		if (GetComponent<Main> ().enabled)
 			GetComponent<Main> ().enabled = false;
 
 		audio = GetComponent<AudioSource> ();
+		Debug.Log ("Start");
 		for (int i = 0; i < 4; ++i) {
-			Debug.Log ("target Position " + targetPos);
-			whaleList [i] = new whaleWithState (Instantiate(ws[i]), objectState.NORMAL, targetPos);
+			whaleList [i] = new whaleWithState (Instantiate(ws[i]), objectState.NORMAL, targetPos, diveTargetPos);
+			Debug.Log ("Instantiate whale");
 			targetPos.x = targetPos.x + 3;
 		}
 		/*
@@ -56,11 +58,16 @@ public class LineGame : MonoBehaviour {
 
 	void OnEnable()
 	{
+		Debug.Log ("Line Game Enabled");
+		end = false;
 		if (GetComponent<Main>().enabled)
 			GetComponent<Main>().enabled = false;
 
-		onscreen = true;
-		MoveOnScreen (onscreen);
+		foreach (whaleWithState w in whaleList) {
+			w.state = objectState.NORMAL;
+			onscreenPos = Utility.GetRandomVector(8);
+			w.whale.GetComponent<Whale>().MoveTowardsTarget(onscreenPos);
+		}
 	}
 	
 	// Initializes the location of a fish
@@ -71,13 +78,15 @@ public class LineGame : MonoBehaviour {
 
 	void Update() {
 		if (end) {
-			foreach(whaleWithState w in whaleList) {
-				w.whale.GetComponent<ActionObject>().MoveTowardsTarget(offscreenPos);
-				offscreenPos.y = offscreenPos.y+1;
+			Debug.Log ("Moving offscreen");
+			foreach (whaleWithState w in whaleList) {
+				w.whale.GetComponent<Whale>().MoveTowardsTarget(offscreenPos);
 			}
+			GetComponent<LineGame>().enabled = false;
 			GetComponent<Main>().enabled = true;
 		}
 		else {
+			audioIsPlaying = false;
 			foreach (whaleWithState w in whaleList) {
 				Whale script = w.whale.GetComponent<Whale>();
 				switch (w.state) {
@@ -90,7 +99,7 @@ public class LineGame : MonoBehaviour {
 					break;
 				case objectState.MOVINGTO:
 					//print ("MOVING TO");
-					if (ActionObject.V3Equal(script.pos, w.targetPos)) {
+					if (Utility.V3Equal(script.pos, w.targetPos)) {
 						lineCount++;
 						if (lineCount == numObjects) {
 							//all objects must dive
@@ -106,17 +115,16 @@ public class LineGame : MonoBehaviour {
 					break;
 				case objectState.SHOULD_DIVE:
 					//print ("DIVING");
-					w.targetPos.x--;
-					w.targetPos.y = -2;
-					script.MoveTowardsTarget(w.targetPos);
+					w.diveTargetPos.x = w.targetPos.x - 1;
+					w.diveTargetPos.y = w.targetPos.y - 2;
+					script.MoveTowardsTarget(w.diveTargetPos);
 					w.state = objectState.DIVING;
 					lineCount--;
 					break;
 				case objectState.DIVING:
 					//print ("IS DIVING");
-					if (ActionObject.V3Equal(script.pos, w.targetPos)) {
+					if (Utility.V3Equal(script.pos, w.diveTargetPos)) {
 						lineCount++;
-						print ("Line count = " + lineCount);
 						if (lineCount == numObjects) {
 							//all objects must dive
 							foreach (whaleWithState item in whaleList) {
@@ -130,9 +138,11 @@ public class LineGame : MonoBehaviour {
 				case objectState.DONE:
 					break;
 				case objectState.RESTART:
-					//print ("RESTART");
-					audioIsPlaying = false;
-					w.state = objectState.DONE;
+					Debug.Log ("RESTART");
+					foreach (whaleWithState item in whaleList) {
+						item.state = objectState.DONE;
+						lineCount--;
+					}
 					end = true;
 					/*
 					whalePos = script.GetRandomVector(8);
@@ -150,31 +160,37 @@ public class LineGame : MonoBehaviour {
 
 	}
 
-	void MoveOnScreen(bool on)
+	void MoveOnScreen(GameObject g1,GameObject g2, GameObject g3, GameObject g4)
 	{
-		MoveHelper (on);
+		Vector3 v1 = Utility.GetRandomVector (8);
+		Vector3 v2 = Utility.GetRandomVector (8);
+		Vector3 v3 = Utility.GetRandomVector (8);
+		Vector3 v4 = Utility.GetRandomVector (8);
+		MoveHelper (g1, v1, g2, v2, g3, v3, g4, v4);
 	}
 	
-	void MoveOffScreen(bool off)
+	void MoveOffScreen(GameObject g1, GameObject g2, GameObject g3, GameObject g4)
 	{
-		MoveHelper (off);
+		Vector3 v1 = Utility.GetRandomVector (14);
+		Vector3 v2 = Utility.GetRandomVector (14);
+		Vector3 v3 = Utility.GetRandomVector (14);
+		Vector3 v4 = Utility.GetRandomVector (14);
+		MoveHelper (g1, v1, g2, v2, g3, v3, g4, v4);
 	}
 	
-	void MoveHelper(bool on)
+	void MoveHelper(GameObject g1, Vector3 v1, GameObject g2, Vector3 v2, GameObject g3, Vector3 v3, GameObject g4, Vector3 v4)
 	{
-		if (on) {
-			for (int i = 0; i < 4; ++i) { 
-				ws[i].GetComponent<ActionObject> ().MoveTowardsTarget (GetComponent<ActionObject> ().GetRandomVector (8));
-			}
-		} else {
-			print ("MOVING OFFSCREEN"); 
-			GetComponent<ActionObject> ().MoveTowardsTarget (offscreenPos);
-		}
+			g1.GetComponent<ActionObject> ().MoveTowardsTarget(v1);
+			g2.GetComponent<ActionObject> ().MoveTowardsTarget(v2);
+			g3.GetComponent<ActionObject> ().MoveTowardsTarget(v3);
+			g4.GetComponent<ActionObject> ().MoveTowardsTarget(v4);
 	}
 
 	void SetFeedbackAudio() {
 		if (!audioIsPlaying) {
+			print ("play sound");
 			audio.clip = positive;
+			audio.loop = false;
 			audio.Play ();
 			audioIsPlaying = true;
 		}

@@ -27,12 +27,11 @@ public class LineGame : MonoBehaviour {
 	public Vector3 offscreenPos = new Vector3 (-40,0,0);
 	
 	public Vector3 onscreenPos;
-	
-//	public new AudioSource audio;
-//	public new AudioClip positive;
-//	public static bool audioIsPlaying = true;
 
 	private AquariumMusic music;  // how this module plays music in the application
+
+	public Vector3 clickedPos = new Vector3 (-100, -100, -100); //kevin
+	public bool kinectClickedOn = false;
 	
 	public bool end = false;
 	
@@ -48,9 +47,6 @@ public class LineGame : MonoBehaviour {
 		
 		music = GetComponent<AquariumMusic> ();
 		Debug.Log ("Start");
-		/*
-		Instantiate (testWhale);
-		testWhale.GetComponent<Whale>().Dive ();*/
 	}
 	
 	void OnEnable()
@@ -95,7 +91,7 @@ public class LineGame : MonoBehaviour {
 				ActionObject script = w.whale.GetComponent<ActionObject>();
 				switch (w.state) {
 				case objectState.NORMAL:
-					if (script.ClickedOn ()) {
+					if (script.ClickedOn (kinectClickedOn, clickedPos)) {
 						w.state = objectState.MOVINGTO;
 						script.MoveTowardsTarget(w.targetPos);
 						break;
@@ -107,7 +103,6 @@ public class LineGame : MonoBehaviour {
 						lineCount++;
 						if (lineCount == numObjects) {
 							//all objects must dive
-//							SetFeedbackAudio();
 							music.PlayFeedback(music.neg);
 							foreach (whaleWithState item in whaleList) {
 								item.state = objectState.SHOULD_DIVE;
@@ -162,7 +157,7 @@ public class LineGame : MonoBehaviour {
 				}
 			}
 		}
-		
+		kinectClickedOn = false;
 	}
 	
 	void MoveOnScreen(GameObject g1,GameObject g2, GameObject g3, GameObject g4)

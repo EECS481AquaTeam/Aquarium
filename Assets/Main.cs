@@ -16,6 +16,9 @@ public class Main : MonoBehaviour
 	private Vector3 onscreen2 = new Vector3 (6, 1, 1);
 	private Vector3 onscreen3 = new Vector3 (0, 1, 1);
 
+	public Vector3 clickedPos = new Vector3 (-100, -100, -100); //kevin
+	public bool kinectClickedOn = false;
+
 	private AquariumMusic music;
 
 	// Use this for initialization
@@ -53,24 +56,26 @@ public class Main : MonoBehaviour
 		ActionObject aquariumGame = aquariumGameButton.GetComponent<ActionObject> ();
 
 		// If the proper fish is clicked on, grow it
-		if (growingGame.ClickedOn ())
+		if (growingGame.ClickedOn (kinectClickedOn, clickedPos))
 		{
 			MoveOffScreen();
 			music.PlayTransition();
 			GetComponent<GrowingTeamGame>().enabled = true;
 		}
-		else if (lineGame.ClickedOn ())
+		else if (lineGame.ClickedOn (kinectClickedOn, clickedPos))
 		{
 			MoveOffScreen();
 			music.PlayTransition();
 			GetComponent<LineGame>().enabled = true;
 		}
-		else if (aquariumGame.ClickedOn ())
+		else if (aquariumGame.ClickedOn (kinectClickedOn, clickedPos))
 		{
 			MoveOffScreen();
 			music.PlayTransition();
 			GetComponent<AquariumGame>().enabled = true;
 		}
+
+		kinectClickedOn = false;
 	}
 
 	void OnEnable()

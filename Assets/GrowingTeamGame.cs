@@ -23,6 +23,9 @@ public class GrowingTeamGame : MonoBehaviour
 	private Vector3 onscreenLeft = new Vector3 (-5, 1, 1);
 	private Vector3 onscreenRight = new Vector3 (5, 1, 1);
 
+	public Vector3 clickedPos = new Vector3 (-100, -100, -100); //kevin
+	public bool kinectClickedOn = false;
+	
 	// Runs on the beginning of instantiation of this class
 	void Start() {
 		if (GetComponent<Main> ().enabled)
@@ -68,12 +71,12 @@ public class GrowingTeamGame : MonoBehaviour
 			ActionObject shrinker = (turnState == turn.RIGHT) ? left.GetComponent<ActionObject> () : right.GetComponent<ActionObject> ();
 		
 			// If the proper fish is clicked on, grow it
-			if (grower.ClickedOn ()) {
+			if (grower.ClickedOn (kinectClickedOn, clickedPos)) {
 				Grow (grower, (turnState == turn.LEFT) ? turn.RIGHT : turn.LEFT);
 			}
 
 			// If the improper whale is clicked on, shrink both whales
-			else if (shrinker.ClickedOn ()) {
+			else if (shrinker.ClickedOn (kinectClickedOn, clickedPos)) {
 				Shrink (grower, shrinker);
 			}
 
@@ -93,11 +96,11 @@ public class GrowingTeamGame : MonoBehaviour
 			ActionObject right_ob = right.GetComponent<ActionObject> ();
 
 			// Grow a fish if it is clicked on
-			if (left_ob.ClickedOn ())
+			if (left_ob.ClickedOn (kinectClickedOn, clickedPos))
 			{
 				Grow (left_ob, turn.RIGHT);
 			}
-			else if (right_ob.ClickedOn ())
+			else if (right_ob.ClickedOn (kinectClickedOn, clickedPos))
 			{
 				Grow (right_ob, turn.LEFT);
 			}
@@ -106,6 +109,7 @@ public class GrowingTeamGame : MonoBehaviour
 		{
 
 		}
+		kinectClickedOn = false;
 	}
 
 	void RescaleFish()

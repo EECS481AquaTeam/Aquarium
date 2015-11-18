@@ -28,13 +28,9 @@ public class LineGame : MonoBehaviour {
 	
 	public Vector3 onscreenPos;
 	
-//	public new AudioSource audio;
-//	public new AudioClip positive;
-//	public static bool audioIsPlaying = true;
-
 	private AquariumMusic music;  // how this module plays music in the application
-
-	public Vector3 clickedPos = new Vector3 (-100, -100, -100);
+	
+	public Vector3 clickedPos = new Vector3 (-100, -100, -100); //kevin
 	public bool kinectClickedOn = false;
 	
 	public bool end = false;
@@ -51,9 +47,6 @@ public class LineGame : MonoBehaviour {
 		
 		music = GetComponent<AquariumMusic> ();
 		Debug.Log ("Start");
-		/*
-		Instantiate (testWhale);
-		testWhale.GetComponent<Whale>().Dive ();*/
 	}
 	
 	void OnEnable()
@@ -62,7 +55,7 @@ public class LineGame : MonoBehaviour {
 		end = false;
 		if (GetComponent<Main>().enabled)
 			GetComponent<Main>().enabled = false;
-
+		
 		targetPos = new Vector3(-5,0,0);
 		for (int i = 0; i < 4; ++i) {
 			whaleList [i] = new whaleWithState (Instantiate(ws[i]), objectState.NORMAL, targetPos, diveTargetPos);
@@ -93,7 +86,7 @@ public class LineGame : MonoBehaviour {
 			GetComponent<Main>().enabled = true;
 		}
 		else {
-//			audioIsPlaying = false;
+			//			audioIsPlaying = false;
 			foreach (whaleWithState w in whaleList) {
 				ActionObject script = w.whale.GetComponent<ActionObject>();
 				switch (w.state) {
@@ -110,7 +103,6 @@ public class LineGame : MonoBehaviour {
 						lineCount++;
 						if (lineCount == numObjects) {
 							//all objects must dive
-//							SetFeedbackAudio();
 							music.PlayFeedback(music.neg);
 							foreach (whaleWithState item in whaleList) {
 								item.state = objectState.SHOULD_DIVE;
@@ -166,7 +158,6 @@ public class LineGame : MonoBehaviour {
 			}
 		}
 		kinectClickedOn = false;
-				
 	}
 	
 	void MoveOnScreen(GameObject g1,GameObject g2, GameObject g3, GameObject g4)
@@ -195,13 +186,13 @@ public class LineGame : MonoBehaviour {
 		g4.GetComponent<ActionObject> ().MoveTowardsTarget(v4);
 	}
 	
-//	void SetFeedbackAudio() {
-//		if (!audioIsPlaying) {
-//			print ("play sound");
-//			audio.clip = positive;
-//			audio.loop = false;
-//			audio.Play ();
-//			audioIsPlaying = true;
-//		}
-//	}
+	//	void SetFeedbackAudio() {
+	//		if (!audioIsPlaying) {
+	//			print ("play sound");
+	//			audio.clip = positive;
+	//			audio.loop = false;
+	//			audio.Play ();
+	//			audioIsPlaying = true;
+	//		}
+	//	}
 }

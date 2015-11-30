@@ -4,10 +4,17 @@ using System.Collections;
 static public class Utility {
 	private const double EQUAL_VECTORS = 0.01;	// 3d vectors are considered to be equal if the magnitude of their differences < EQUAL_VECTORS
 	
-	// Initializes the location of a fish
-	static public void InitializeFish(GameObject item, Vector3 location)
+//	// Initializes the location of a fish
+//	static public void InitializeFish(GameObject item, Vector3 location)
+//	{
+//		InitializeFish (item, location, 5f);
+////		item.GetComponent<ActionObject>().Initialize(location, 5f);
+//	}
+
+	// Initializes the speed and locations of a fish
+	static public void InitializeFish(GameObject item, Vector3 location, float speed=5f)
 	{
-		item.GetComponent<ActionObject>().Initialize(location, 5f);
+		item.GetComponent<ActionObject> ().Initialize (location, speed);
 	}
 
 	static public void MoveHelper(GameObject g1, Vector3 v1, GameObject g2, Vector3 v2)

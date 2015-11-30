@@ -10,6 +10,8 @@ public class ActionObject : MonoBehaviour {
 
 	public Vector3 targetLocation;
 
+	private bool destroyable = true;
+
 	private float speed;
 	
 	public virtual void Awake()
@@ -33,10 +35,16 @@ public class ActionObject : MonoBehaviour {
 			MoveTowardsTarget (targetLocation);
 		}
 
-		if (OutsideCamera ()) {
+		if (OutsideCamera () && destroyable) {
 			Destroy (gameObject);
 			Debug.Log ("destroyed");
 		}
+	}
+
+	// Sets the value of destroyable of false so that the object will not be destroyed when it is outside the camera
+	public void MakeUndestroyable()
+	{
+		destroyable = false;
 	}
 	
 	// The object grows if the mouse is clicking the object, and shrinks back to its normal size otherwize 
